@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HeroDetailComponent } from './heroDetails.component';
 import { HerosWorkComponent } from './herosWork.component';
 import { Hero } from './hero';
+import { Desc } from './hero';
 @Component({
 	selector:'my-app',
 	template:`
@@ -15,32 +16,42 @@ import { Hero } from './hero';
 	      </li>
 	    </ul>
 	    <my-hero-detail [hero]="selectedHero"></my-hero-detail>
-	    <my-hero-work [hero]="selectedHero"></my-hero-work>
+	    <my-hero-work [hero]="selectedHero" [descs]="descs"></my-hero-work>
 	`,
   directives: [HeroDetailComponent,HerosWorkComponent]
-
-
-
-
 })
 export class AppComponent{
   title = 'Tour of Heroes';
-  selectedHero: Hero;
+  selectedHero: any;
   public heroes = HEROES;
+  public descs = descriptions;
+
   onSelect(hero: Hero) { 
   	this.selectedHero = hero; 
   }
 }
 
 var HEROES: Hero[] = [
-  { "id": 1, "name": "Sunny","desc":"DW" },
-  { "id": 2, "name": "Ishita","desc":"DW" },
-  { "id": 3, "name": "Utsav","desc":"BE" },
-  { "id": 4, "name": "Ruchit","desc":"DW" },
-  { "id": 5, "name": "Sarab","desc":"BE" },
-  { "id": 6, "name": "Pratima","desc":"BE" },
-  { "id": 7, "name": "Rasika","desc":"DW" },
-  { "id": 8, "name": "Dinesh","desc":"BE" },
-  { "id": 9, "name": "Himank","desc":"PO" },
-  { "id": 10, "name": "Rajesh","desc":"BE" }
+  { "id": 1, "name": "Sunny"},
+  { "id": 2, "name": "Ishita"},
+  { "id": 3, "name": "Utsav"},
+  { "id": 4, "name": "Ruchit"},
+  { "id": 5, "name": "Sarab"},
+  { "id": 6, "name": "Pratima"},
+  { "id": 7, "name": "Rasika"},
+  { "id": 8, "name": "Dinesh"},
+  { "id": 9, "name": "Himank"},
+  { "id": 10, "name": "Rajesh"}
+];
+var descriptions: Desc[] = [
+  { "id": 1,"desc":"DW" },
+  { "id": 2,"desc":"DW" },
+  { "id": 3,"desc":"BE" },
+  { "id": 4,"desc":"DW" },
+  { "id": 5,"desc":"BE" },
+  { "id": 6,"desc":"BE" },
+  { "id": 7,"desc":"DW" },
+  { "id": 8,"desc":"BE" },
+  { "id": 9,"desc":"PO" },
+  { "id": 10,"desc":"BE" }
 ];

@@ -1,5 +1,9 @@
 export class Hero {
   id: number;
   name: string;
-  desc : string;
+}
+
+export class Desc{
+	id: number;
+	desc: string;
 }
