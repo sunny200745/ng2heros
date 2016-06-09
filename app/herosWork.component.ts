@@ -1,4 +1,5 @@
-import { Component,Input} from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChange} from '@angular/core';
+import { HeroService } from './hero.service';
 import { Hero } from './hero';
 import { Desc } from './hero';
 
@@ -6,34 +7,46 @@ import { Desc } from './hero';
   selector: 'my-hero-work',
   template:`
   	<div *ngIf="hero">
-      <h2>Designation of {{hero.name}} is   To be Achieved </h2>
+      <h2>Designation of {{hero.name}} is    {{selectedDesc}}</h2>
     </div>
-
-      
-  `
+  `,
+  providers: [HeroService]
 })
 
 
-export class HerosWorkComponent{
-  
-    
-    @Input() 
-    hero: any;
-    selectedDesc : any;
-    descs : any;
+export class HerosWorkComponent implements OnInit, OnChanges{
 
-    ngOnChanges(changes: SimpleChanges, hero:Hero) {
-      console.log('ngOnChanges - hero = ' , JSON.stringify(changes['hero']));
-      // console.debug('Hero is ====>', hero)
-      // //console.log('Desc ===>',descs);
-      // for (var i = 0; i < Desc.length; ++i) {
-      //   if(changes['hero'].id === Desc[i].id){
-      //     this.selectedDesc = Desc[i].desc;
-      //     break;
-      //   }
-        
-      // }
+    @Input() 
+    hero: Hero;
+    selectedDesc: any;
+  
+  public descs : Desc[];
+
+  constructor(private descService: HeroService) { }
+
+  getDescriptions() {
+    this.descService.getDescriptions().then(descs => this.descs = descs);
+  }
+
+  ngOnInit() {
+    this.getDescriptions();
+    
+  }
+
+  ngOnChanges(changes: { [propname:  string] : SimpleChange}) {
+    console.log('ngOnChanges - myProp = ' + JSON.stringify(changes['hero'].currentValue));
+    console.log(this.descs);
+    if (!this.descs){
+      return false;
     }
+    for (var i = 0; i < this.descs.length; ++i) {
+      if (changes['hero'].currentValue.id === this.descs[i].id){
+        this.selectedDesc = this.descs[i].desc;
+        break;
+      }
+    }
+
+  }
 }
 
 

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeroDetailComponent } from './heroDetails.component';
 import { HerosWorkComponent } from './herosWork.component';
+import { HeroService } from './hero.service';
+
 import { Hero } from './hero';
-import { Desc } from './hero';
 @Component({
 	selector:'my-app',
 	template:`
@@ -16,42 +17,30 @@ import { Desc } from './hero';
 	      </li>
 	    </ul>
 	    <my-hero-detail [hero]="selectedHero"></my-hero-detail>
-	    <my-hero-work [hero]="selectedHero" [descs]="descs"></my-hero-work>
+	    <my-hero-work [hero]="selectedHero"></my-hero-work>
 	`,
-  directives: [HeroDetailComponent,HerosWorkComponent]
+  directives: [HeroDetailComponent,HerosWorkComponent],
+  providers: [HeroService]
 })
-export class AppComponent{
+export class AppComponent implements OnInit{
   title = 'Tour of Heroes';
   selectedHero: any;
-  public heroes = HEROES;
-  public descs = descriptions;
+  public heroes :Hero[];
+  
+  
+  constructor(private heroService: HeroService) { }
+
+  getHeroes() {
+    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
+  }
+
+  ngOnInit() {
+    this.getHeroes();
+  }
 
   onSelect(hero: Hero) { 
-  	this.selectedHero = hero; 
+    this.selectedHero = hero; 
   }
 }
 
-var HEROES: Hero[] = [
-  { "id": 1, "name": "Sunny"},
-  { "id": 2, "name": "Ishita"},
-  { "id": 3, "name": "Utsav"},
-  { "id": 4, "name": "Ruchit"},
-  { "id": 5, "name": "Sarab"},
-  { "id": 6, "name": "Pratima"},
-  { "id": 7, "name": "Rasika"},
-  { "id": 8, "name": "Dinesh"},
-  { "id": 9, "name": "Himank"},
-  { "id": 10, "name": "Rajesh"}
-];
-var descriptions: Desc[] = [
-  { "id": 1,"desc":"DW" },
-  { "id": 2,"desc":"DW" },
-  { "id": 3,"desc":"BE" },
-  { "id": 4,"desc":"DW" },
-  { "id": 5,"desc":"BE" },
-  { "id": 6,"desc":"BE" },
-  { "id": 7,"desc":"DW" },
-  { "id": 8,"desc":"BE" },
-  { "id": 9,"desc":"PO" },
-  { "id": 10,"desc":"BE" }
-];
+
